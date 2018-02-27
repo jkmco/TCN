@@ -1,0 +1,10 @@
+/Users/jackal/Projects/TCN/bin/Debug/netcoreapp2.0/TCN.deps.json
+/Users/jackal/Projects/TCN/bin/Debug/netcoreapp2.0/TCN.runtimeconfig.json
+/Users/jackal/Projects/TCN/bin/Debug/netcoreapp2.0/TCN.runtimeconfig.dev.json
+/Users/jackal/Projects/TCN/bin/Debug/netcoreapp2.0/TCN.dll
+/Users/jackal/Projects/TCN/bin/Debug/netcoreapp2.0/TCN.pdb
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.csproj.CoreCompileInputs.cache
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.AssemblyInfoInputs.cache
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.AssemblyInfo.cs
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.dll
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.pdb
