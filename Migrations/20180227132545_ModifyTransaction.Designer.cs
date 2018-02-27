@@ -11,9 +11,10 @@ using TCN.Persistence;
 namespace TCN.Migrations
 {
     [DbContext(typeof(TcnDbContext))]
-    partial class TcnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180227132545_ModifyTransaction")]
+    partial class ModifyTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

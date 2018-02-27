@@ -24,8 +24,8 @@ namespace TCN.Persistence
             modelBuilder.Entity<Transaction>(et => {
                 et.ToTable("Transactions");
                 et.Property(t => t.Price).IsRequired();
-                et.Property(t => t.MinAmount).IsRequired();
-                et.Property(t => t.MaxAmount).IsRequired();
+                et.Property(t => t.MinLimit).IsRequired();
+                et.Property(t => t.MaxLimit).IsRequired();
             });
 
             modelBuilder.Entity<TransactionCoin>(ec => {
