@@ -14,5 +14,29 @@ namespace TCN.Persistence
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>(eu => {
+                eu.ToTable("Users");
+                eu.Property(u => u.Name).HasColumnType("varchar(255)").IsRequired();
+            });
+
+            modelBuilder.Entity<Transaction>(et => {
+                et.ToTable("Transactions");
+                et.Property(t => t.Price).IsRequired();
+                et.Property(t => t.MinAmount).IsRequired();
+                et.Property(t => t.MaxAmount).IsRequired();
+            });
+
+            modelBuilder.Entity<TransactionCoin>(ec => {
+                ec.ToTable("TransactionCoins");
+                ec.Property(c => c.Name).HasColumnType("varchar(20)").IsRequired();
+            });
+
+             modelBuilder.Entity<TransactionFx>(ef => {
+                ef.ToTable("TransactionFxs");
+                ef.Property(f => f.Name).HasColumnType("varchar(3)").IsRequired();
+            });
+        }
     }
 }
