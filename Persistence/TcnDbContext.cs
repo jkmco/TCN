@@ -11,7 +11,7 @@ namespace TCN.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionCoin> TransactionCoins { get; set; }
-        public DbSet<TransactionFx> TransactionFx { get; set; }
+        public DbSet<TransactionFx> TransactionFxs { get; set; }
         
         public TcnDbContext(DbContextOptions<TcnDbContext> options)
             : base(options)
@@ -80,6 +80,7 @@ namespace TCN.Persistence
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
                         entry.CurrentValues["IsDeleted"] = true;
+                        entry.CurrentValues["DeletedAt"] = now;                        
                         break;
                 }
             }
