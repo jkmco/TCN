@@ -21,23 +21,23 @@ namespace TCN.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTransaction([FromBody] TransactionResource transactionResource)
+        public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionResource transactionResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
                 
-            var transaction = mapper.Map<TransactionResource, Transaction>(transactionResource);
+            var transaction = mapper.Map<CreateTransactionResource, Transaction>(transactionResource);
             
             context.Transactions.Add(transaction);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, TransactionResource>(transaction);
+            var result = mapper.Map<Transaction, CreateTransactionResource>(transaction);
 
             return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] TransactionResource transactionResource)
+        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] CreateTransactionResource transactionResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -47,11 +47,11 @@ namespace TCN.Controllers
             if (transaction == null)
                 return NotFound();
 
-            mapper.Map<TransactionResource, Transaction>(transactionResource, transaction);
+            mapper.Map<CreateTransactionResource, Transaction>(transactionResource, transaction);
             
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, TransactionResource>(transaction);
+            var result = mapper.Map<Transaction, CreateTransactionResource>(transaction);
 
             return Ok(result);
         }
@@ -77,7 +77,7 @@ namespace TCN.Controllers
             if (transaction == null)
                 return NotFound();
 
-            var result = mapper.Map<Transaction,TransactionResource>(transaction);
+            var result = mapper.Map<Transaction,CreateTransactionResource>(transaction);
 
             return Ok(result); 
         }
@@ -89,7 +89,7 @@ namespace TCN.Controllers
             if (transactions == null)
                 return NotFound();
 
-            var result = mapper.Map<List<Transaction>, List<TransactionResource>>(transactions);
+            var result = mapper.Map<List<Transaction>, List<CreateTransactionResource>>(transactions);
 
             return Ok(result);
         }
@@ -102,7 +102,7 @@ namespace TCN.Controllers
             if (coins == null)
                 return NotFound();
 
-            var result = mapper.Map<List<TransactionCoin>, List<TransactionCoinResource>>(coins);
+            var result = mapper.Map<List<TransactionCoin>, List<KeyValuePairResource>>(coins);
 
             return Ok(result);
         }
@@ -115,7 +115,7 @@ namespace TCN.Controllers
             if (fxs == null)
                 return NotFound();
 
-            var result = mapper.Map<List<TransactionFx>, List<TransactionFxResource>>(fxs);
+            var result = mapper.Map<List<TransactionFx>, List<KeyValuePairResource>>(fxs);
 
             return Ok(result);
         }
