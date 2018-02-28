@@ -69,12 +69,57 @@ namespace TCN.Controllers
             return Ok(id); 
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTransaction(int id)
+        {
+            var transaction = await context.Transactions.FindAsync(id);
+
+            if (transaction == null)
+                return NotFound();
+
+            var result = mapper.Map<Transaction,TransactionResource>(transaction);
+
+            return Ok(result); 
+        }
         [HttpGet]
-        public async Task<IEnumerable<TransactionResource>> GetTransactions()
+        public async Task<IActionResult> GetTransactions()
         {
             var transactions = await context.Transactions.ToListAsync();
-            return mapper.Map<List<Transaction>, List<TransactionResource>>(transactions);   
+
+            if (transactions == null)
+                return NotFound();
+
+            var result = mapper.Map<List<Transaction>, List<TransactionResource>>(transactions);
+
+            return Ok(result);
         }
+
+        [HttpGet("coins")]
+        public async Task<IActionResult> GetTransactionCoins()
+        {
+            var coins = await context.TransactionCoins.ToListAsync();
+
+            if (coins == null)
+                return NotFound();
+
+            var result = mapper.Map<List<TransactionCoin>, List<TransactionCoinResource>>(coins);
+
+            return Ok(result);
+        }
+
+        [HttpGet("fxs")]
+        public async Task<IActionResult> GetTransactionFxs()
+        {
+            var fxs = await context.TransactionFxs.ToListAsync();
+
+            if (fxs == null)
+                return NotFound();
+
+            var result = mapper.Map<List<TransactionFx>, List<TransactionFxResource>>(fxs);
+
+            return Ok(result);
+        }
+        
 
     }
 }

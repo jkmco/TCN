@@ -26,9 +26,8 @@ namespace TCN.Persistence
             modelBuilder.Entity<Transaction>().Property<DateTime>("LastUpdatedAt");
 
             modelBuilder.Entity<Transaction>()
-                .HasQueryFilter(t => EF.Property<bool>(t, "IsDeleted") == false);
+                .HasQueryFilter(transaction => EF.Property<bool>(transaction, "IsDeleted") == false);
     
-
             // fluent api
             modelBuilder.Entity<User>(eu => {
                 eu.ToTable("Users");
