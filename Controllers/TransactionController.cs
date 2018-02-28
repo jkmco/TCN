@@ -14,82 +14,84 @@ namespace TCN.Controllers
     {
         private readonly TcnDbContext context;
         private readonly IMapper mapper;
-        public TransactionController(TcnDbContext context, IMapper mapper)
+        private readonly ITransactionRepository repository;
+        public TransactionController(TcnDbContext context, IMapper mapper, ITransactionRepository repository)
         {
+            this.repository = repository;
             this.mapper = mapper;
             this.context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionResource transactionResource)
+        public async Task<IActionResult> CreateTransaction([FromBody] SaveTransactionResource transactionResource)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-                
-            var transaction = mapper.Map<CreateTransactionResource, Transaction>(transactionResource);
-            
-            context.Transactions.Add(transaction);
+
+            var transaction = mapper.Map<SaveTransactionResource, Transaction>(transactionResource);
+
+            repository.Add(transaction);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, CreateTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, SaveTransactionResource>(transaction);
 
             return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] CreateTransactionResource transactionResource)
+        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] SaveTransactionResource transactionResource)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var transaction = await context.Transactions.FindAsync(id);
-            
+            var transaction = await repository.GetTransactionAsync(id);
+
             if (transaction == null)
                 return NotFound();
 
-            mapper.Map<CreateTransactionResource, Transaction>(transactionResource, transaction);
-            
+            mapper.Map<SaveTransactionResource, Transaction>(transactionResource, transaction);
+
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, CreateTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, GetTransactionResource>(transaction);
 
             return Ok(result);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
-            var transaction = await context.Transactions.FindAsync(id);
+            var transaction = await repository.GetTransactionAsync(id, includeRelated: false);
 
             if (transaction == null)
                 return NotFound();
 
-            context.Remove(transaction);
-            await context.SaveChangesAsync();   
+            repository.Remove(transaction);
+            await context.SaveChangesAsync();
 
-            return Ok(id); 
+            return Ok(id);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransaction(int id)
         {
-            var transaction = await context.Transactions.FindAsync(id);
+            var transaction = await repository.GetTransactionAsync(id);            
 
             if (transaction == null)
                 return NotFound();
 
-            var result = mapper.Map<Transaction,CreateTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, GetTransactionResource>(transaction);
 
-            return Ok(result); 
+            return Ok(result);
         }
         [HttpGet]
         public async Task<IActionResult> GetTransactions()
         {
-            var transactions = await context.Transactions.ToListAsync();
+            var transactions = await repository.GetAllTransactionAsync();
 
             if (transactions == null)
                 return NotFound();
 
-            var result = mapper.Map<List<Transaction>, List<CreateTransactionResource>>(transactions);
+            var result = mapper.Map<List<Transaction>, List<SaveTransactionResource>>(transactions);
 
             return Ok(result);
         }
@@ -97,8 +99,8 @@ namespace TCN.Controllers
         [HttpGet("coins")]
         public async Task<IActionResult> GetTransactionCoins()
         {
-            var coins = await context.TransactionCoins.ToListAsync();
-
+            var coins = await repository.GetAllCoinAsync();
+            
             if (coins == null)
                 return NotFound();
 
@@ -110,7 +112,7 @@ namespace TCN.Controllers
         [HttpGet("fxs")]
         public async Task<IActionResult> GetTransactionFxs()
         {
-            var fxs = await context.TransactionFxs.ToListAsync();
+            var fxs = await repository.GetAllFxAsync();
 
             if (fxs == null)
                 return NotFound();
@@ -119,7 +121,7 @@ namespace TCN.Controllers
 
             return Ok(result);
         }
-        
+
 
     }
 }

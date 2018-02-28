@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TCN.Controllers.Resources
 {
-    public class CreateTransactionResource
+    public class SaveTransactionResource
     {
         public int Id { get; set; }
         [Required]

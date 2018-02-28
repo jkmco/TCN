@@ -19,10 +19,22 @@ namespace TCN.Controllers
             this.context = context;
         }
         [HttpGet("/api/users")]
-        public async Task<IEnumerable<UserResource>> GetUsers()
+        // public async Task<IEnumerable<UserResource>> GetUsers()
+        // {
+        //     var users = await context.Users.Include(u => u.Transactions).ToListAsync();
+        //     return mapper.Map<List<User>, List<UserResource>>(users);
+        // }
+        // [HttpGet]
+        public async Task<IActionResult> GetUsers()
         {
             var users = await context.Users.Include(u => u.Transactions).ToListAsync();
-            return mapper.Map<List<User>, List<UserResource>>(users);
+
+            if (users == null)
+                return NotFound();
+
+            var result = mapper.Map<List<User>, List<UserResource>>(users);
+
+            return Ok(result);
         }
     }
 }

@@ -3,12 +3,14 @@ using System.Collections.ObjectModel;
 
 namespace TCN.Controllers.Resources
 {
-    public class UserResource : KeyValuePairResource
-    {
-        public ICollection<CreateTransactionResource> Transactions { get; set; }   
+    public class UserResource
+    {        
+        public int Id { get; set; }
+        public string Name { get; set; }    
+        public ICollection<SaveTransactionResource> Transactions { get; set; }   
         public UserResource()
         {
-            Transactions = new Collection<CreateTransactionResource>();
+            Transactions = new Collection<SaveTransactionResource>();
         }
     }
 }
