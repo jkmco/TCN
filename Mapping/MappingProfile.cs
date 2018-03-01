@@ -16,6 +16,7 @@ namespace TCN.Mapping
             CreateMap<TransactionFx, KeyValuePairResource>();
 
             // API Resource to Domain
+            CreateMap<FilterResource, Filter>();
             CreateMap<SaveTransactionResource, Transaction>()
                 .ForMember(t => t.Id, opt => opt.Ignore());
             

@@ -84,16 +84,12 @@ namespace TCN.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public async Task<IActionResult> GetTransactions()
+        public async Task<IEnumerable<LoadTransactionResource>> GetTransactions(FilterResource filterResource)
         {
-            var transactions = await repository.GetAllTransactionAsync();
+            var filter = mapper.Map<FilterResource, Filter>(filterResource);
+            var transactions = await repository.GetAllTransactionAsync(filter);
 
-            if (transactions == null)
-                return NotFound();
-
-            var result = mapper.Map<IEnumerable<Transaction>, IEnumerable<LoadTransactionResource>>(transactions);
-
-            return Ok(result);
+            return mapper.Map<IEnumerable<Transaction>, IEnumerable<LoadTransactionResource>>(transactions);
         }
 
         [HttpGet("coins")]

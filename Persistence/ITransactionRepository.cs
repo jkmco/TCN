@@ -9,8 +9,8 @@ namespace TCN.Persistence
         void Add(Transaction transaction);
         void Remove(Transaction transaction);
         Task<Transaction> GetTransactionAsync(int id, bool includeRelated = true);
-        Task<List<Transaction>> GetAllTransactionAsync();
-        Task<List<TransactionCoin>> GetAllCoinAsync();
-        Task<List<TransactionFx>> GetAllFxAsync();
+        Task<IEnumerable<Transaction>> GetAllTransactionAsync(Filter filter);
+        Task<IEnumerable<TransactionCoin>> GetAllCoinAsync();
+        Task<IEnumerable<TransactionFx>> GetAllFxAsync();
     }
 }

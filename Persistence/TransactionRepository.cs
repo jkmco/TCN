@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TCN.Models;
@@ -33,19 +34,24 @@ namespace TCN.Persistence
                     .Include(t => t.Fx)
                     .SingleOrDefaultAsync(t => t.Id == id);
         }
-        public async Task<List<Transaction>> GetAllTransactionAsync()
+        public async Task<IEnumerable<Transaction>> GetAllTransactionAsync(Filter filter)
         {
-            return await context.Transactions
+            var query = context.Transactions
                     .Include(t => t.User)
                     .Include(t => t.Coin)
                     .Include(t => t.Fx)
-                    .ToListAsync();
+                    .AsQueryable();
+            
+            if(filter.TransactionId.HasValue)
+                query = query.Where(t => t.Id == filter.TransactionId);
+
+            return await query.ToListAsync();
         }
-        public async Task<List<TransactionCoin>> GetAllCoinAsync()
+        public async Task<IEnumerable<TransactionCoin>> GetAllCoinAsync()
         {
             return await context.TransactionCoins.ToListAsync();
         }
-        public async Task<List<TransactionFx>> GetAllFxAsync()
+        public async Task<IEnumerable<TransactionFx>> GetAllFxAsync()
         {
             return await context.TransactionFxs.ToListAsync();
         }
