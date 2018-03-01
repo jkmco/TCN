@@ -25,6 +25,7 @@ namespace TCN
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();
 

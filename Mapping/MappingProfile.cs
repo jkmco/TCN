@@ -11,7 +11,7 @@ namespace TCN.Mapping
             // Domain to API Resource
             CreateMap<User, UserResource>();
             CreateMap<Transaction, SaveTransactionResource>();
-            CreateMap<Transaction, GetTransactionResource>();            
+            CreateMap<Transaction, LoadTransactionResource>();            
             CreateMap<TransactionCoin, KeyValuePairResource>();
             CreateMap<TransactionFx, KeyValuePairResource>();
 

@@ -33,7 +33,7 @@ namespace TCN.Controllers
             repository.Add(transaction);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, SaveTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
 
             return Ok(result);
         }
@@ -53,7 +53,7 @@ namespace TCN.Controllers
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Transaction, GetTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
 
             return Ok(result);
         }
@@ -79,7 +79,7 @@ namespace TCN.Controllers
             if (transaction == null)
                 return NotFound();
 
-            var result = mapper.Map<Transaction, GetTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
 
             return Ok(result);
         }
@@ -91,7 +91,7 @@ namespace TCN.Controllers
             if (transactions == null)
                 return NotFound();
 
-            var result = mapper.Map<List<Transaction>, List<SaveTransactionResource>>(transactions);
+            var result = mapper.Map<List<Transaction>, List<LoadTransactionResource>>(transactions);
 
             return Ok(result);
         }
