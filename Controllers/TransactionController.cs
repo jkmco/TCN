@@ -12,14 +12,14 @@ namespace TCN.Controllers
     [Route("/api/transactions")]
     public class TransactionController : Controller
     {
-        private readonly TcnDbContext context;
         private readonly IMapper mapper;
         private readonly ITransactionRepository repository;
-        public TransactionController(TcnDbContext context, IMapper mapper, ITransactionRepository repository)
+        private readonly IUnitOfWork unitOfWork;
+        public TransactionController(IMapper mapper, ITransactionRepository repository, IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.repository = repository;
             this.mapper = mapper;
-            this.context = context;
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace TCN.Controllers
             var transaction = mapper.Map<SaveTransactionResource, Transaction>(transactionResource);
 
             repository.Add(transaction);
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
 
@@ -51,7 +51,7 @@ namespace TCN.Controllers
 
             mapper.Map<SaveTransactionResource, Transaction>(transactionResource, transaction);
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
 
@@ -66,7 +66,7 @@ namespace TCN.Controllers
                 return NotFound();
 
             repository.Remove(transaction);
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             return Ok(id);
         }
@@ -74,7 +74,7 @@ namespace TCN.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransaction(int id)
         {
-            var transaction = await repository.GetTransactionAsync(id);            
+            var transaction = await repository.GetTransactionAsync(id);
 
             if (transaction == null)
                 return NotFound();
@@ -100,7 +100,7 @@ namespace TCN.Controllers
         public async Task<IActionResult> GetTransactionCoins()
         {
             var coins = await repository.GetAllCoinAsync();
-            
+
             if (coins == null)
                 return NotFound();
 
