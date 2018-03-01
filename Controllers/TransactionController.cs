@@ -33,7 +33,7 @@ namespace TCN.Controllers
             repository.Add(transaction);
             await unitOfWork.CompleteAsync();
 
-            var result = mapper.Map<Transaction, LoadTransactionResource>(transaction);
+            var result = mapper.Map<Transaction, SaveTransactionResource>(transaction);
 
             return Ok(result);
         }
