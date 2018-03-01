@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TCN.Extensions;
 using TCN.Models;
 
 namespace TCN.Persistence
@@ -58,13 +59,11 @@ namespace TCN.Persistence
                 ["price"] = t => t.Price
             };
 
-            if(queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
-            
+            query = query.ApplyOrdering(queryObj, columnsMap);
+
             return await query.ToListAsync();
         }
+
         public async Task<IEnumerable<TransactionCoin>> GetAllCoinAsync()
         {
             return await context.TransactionCoins.ToListAsync();

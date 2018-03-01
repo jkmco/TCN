@@ -1,6 +1,8 @@
+using TCN.Extensions;
+
 namespace TCN.Models
 {
-    public class TransactionQuery
+    public class TransactionQuery : IQueryObject
     {
         public int? TransactionId { get; set; }
         public int? CoinId { get; set; }
