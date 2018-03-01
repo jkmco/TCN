@@ -84,9 +84,9 @@ namespace TCN.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public async Task<IEnumerable<LoadTransactionResource>> GetTransactions(FilterResource filterResource)
+        public async Task<IEnumerable<LoadTransactionResource>> GetTransactions(TransactionQueryResource filterResource)
         {
-            var filter = mapper.Map<FilterResource, Filter>(filterResource);
+            var filter = mapper.Map<TransactionQueryResource, TransactionQuery>(filterResource);
             var transactions = await repository.GetAllTransactionAsync(filter);
 
             return mapper.Map<IEnumerable<Transaction>, IEnumerable<LoadTransactionResource>>(transactions);
