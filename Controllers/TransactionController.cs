@@ -91,7 +91,7 @@ namespace TCN.Controllers
             if (transactions == null)
                 return NotFound();
 
-            var result = mapper.Map<List<Transaction>, List<LoadTransactionResource>>(transactions);
+            var result = mapper.Map<IEnumerable<Transaction>, IEnumerable<LoadTransactionResource>>(transactions);
 
             return Ok(result);
         }
@@ -104,7 +104,7 @@ namespace TCN.Controllers
             if (coins == null)
                 return NotFound();
 
-            var result = mapper.Map<List<TransactionCoin>, List<KeyValuePairResource>>(coins);
+            var result = mapper.Map<IEnumerable<TransactionCoin>, IEnumerable<KeyValuePairResource>>(coins);
 
             return Ok(result);
         }
@@ -117,7 +117,7 @@ namespace TCN.Controllers
             if (fxs == null)
                 return NotFound();
 
-            var result = mapper.Map<List<TransactionFx>, List<KeyValuePairResource>>(fxs);
+            var result = mapper.Map<IEnumerable<TransactionFx>, IEnumerable<KeyValuePairResource>>(fxs);
 
             return Ok(result);
         }
