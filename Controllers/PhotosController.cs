@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TCN.Controllers.Resources;
 using TCN.Models;
 using TCN.Persistence;
@@ -16,11 +18,13 @@ namespace TCN.Controllers
     {
         private readonly IHostingEnvironment host;
         private readonly ITransactionRepository repository;
+        private readonly PhotoSettings photoSettings;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public PhotosController(IHostingEnvironment host, ITransactionRepository repository, IUnitOfWork unitOfWork, IMapper mapper)
+        public PhotosController(IHostingEnvironment host, ITransactionRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
+            this.photoSettings = options.Value;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.repository = repository;
@@ -32,6 +36,11 @@ namespace TCN.Controllers
             var transaction = await repository.GetTransactionAsync(transactionId, includeRelated: false);
             if (transaction == null)
                 return NotFound();
+
+            if (file == null) return BadRequest("Null file");
+            if (file.Length == 0) return BadRequest("Empty file");
+            if (file.Length >= photoSettings.MaxBytes) return BadRequest("Exceeds file limit");
+            if (!photoSettings.IsSupported(file.FileName)) return BadRequest("file formats not supported");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadsFolderPath))
