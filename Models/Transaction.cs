@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TCN.Models
 {
@@ -11,9 +13,15 @@ namespace TCN.Models
         public int Price { get; set; }
         public int MinLimit { get; set; }
         public int MaxLimit { get; set; }  
+        public ICollection<Photo> Photos { get; set; }
         
         public User User { get; set; }
         public TransactionCoin Coin { get; set; }
         public TransactionFx Fx { get; set; }
+
+        public Transaction()
+        {
+            Photos = new Collection<Photo>();
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace TCN.Persistence
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionCoin> TransactionCoins { get; set; }
         public DbSet<TransactionFx> TransactionFxs { get; set; }
+        public DbSet<Photo> Photos { get; set; }
         
         public TcnDbContext(DbContextOptions<TcnDbContext> options)
             : base(options)
@@ -50,6 +51,11 @@ namespace TCN.Persistence
                 ef.ToTable("TransactionFxs");
                 ef.Property(f => f.Name).HasColumnType("varchar(3)").IsRequired();
             });   
+            
+            modelBuilder.Entity<Photo>(p => {
+                p.ToTable("Photos");
+                p.Property(c => c.FileName).HasColumnType("varchar(255)").IsRequired();
+            });
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
