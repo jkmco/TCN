@@ -21,7 +21,7 @@ namespace TCN.Controllers
         [HttpGet("/api/users")]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await context.Users.Include(u => u.Transactions).ToListAsync();
+            var users = await context.Users.Include(u => u.Trades).ToListAsync();
 
             if (users == null)
                 return NotFound();

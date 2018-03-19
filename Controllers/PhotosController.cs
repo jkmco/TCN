@@ -17,12 +17,12 @@ namespace TCN.Controllers
     public class PhotosController : Controller
     {
         private readonly IHostingEnvironment host;
-        private readonly ITransactionRepository repository;
+        private readonly ITradeRepository repository;
         private readonly PhotoSettings photoSettings;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public PhotosController(IHostingEnvironment host, ITransactionRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
+        public PhotosController(IHostingEnvironment host, ITradeRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
             this.photoSettings = options.Value;
             this.unitOfWork = unitOfWork;
@@ -31,10 +31,10 @@ namespace TCN.Controllers
             this.host = host;
         }
         [HttpPost]
-        public async Task<IActionResult> Upload(int transactionId, IFormFile file)
+        public async Task<IActionResult> Upload(int tradeId, IFormFile file)
         {
-            var transaction = await repository.GetTransactionAsync(transactionId, includeRelated: false);
-            if (transaction == null)
+            var trade = await repository.GetTradeAsync(tradeId, includeRelated: false);
+            if (trade == null)
                 return NotFound();
 
             if (file == null) return BadRequest("Null file");
@@ -55,7 +55,7 @@ namespace TCN.Controllers
             }
 
             var photo = new Photo { FileName = fileName };
-            transaction.Photos.Add(photo);
+            trade.Photos.Add(photo);
             await unitOfWork.CompleteAsync();
 
             return Ok(mapper.Map<Photo, PhotoResource>(photo));

@@ -9,49 +9,49 @@ using TCN.Models;
 
 namespace TCN.Persistence
 {
-    public class TransactionRepository : ITransactionRepository
+    public class TradeRepository : ITradeRepository
     {
         private readonly TcnDbContext context;
-        public TransactionRepository(TcnDbContext context)
+        public TradeRepository(TcnDbContext context)
         {
             this.context = context;
         }
 
-        public void Add(Transaction transaction)
+        public void Add(Trade trade)
         {
-            context.Transactions.Add(transaction);
+            context.Trades.Add(trade);
         }
-        public void Remove(Transaction transaction)
+        public void Remove(Trade trade)
         {
-            context.Transactions.Remove(transaction);
+            context.Trades.Remove(trade);
         }
 
-        public async Task<Transaction> GetTransactionAsync(int id, bool includeRelated = true)
+        public async Task<Trade> GetTradeAsync(int id, bool includeRelated = true)
         {
             if(!includeRelated)
-                return await context.Transactions.FindAsync(id);
+                return await context.Trades.FindAsync(id);
 
-            return await context.Transactions
+            return await context.Trades
                     .Include(t => t.User)
                     .Include(t => t.Coin)
                     .Include(t => t.Fx)
                     .SingleOrDefaultAsync(t => t.Id == id);
         }
-        public async Task<IEnumerable<Transaction>> GetAllTransactionAsync(TransactionQuery queryObj)
+        public async Task<IEnumerable<Trade>> GetAllTradeAsync(TradeQuery queryObj)
         {
-            var query = context.Transactions
+            var query = context.Trades
                     .Include(t => t.User)
                     .Include(t => t.Coin)
                     .Include(t => t.Fx)
                     .AsQueryable();
             
-            if(queryObj.TransactionId.HasValue)
-                query = query.Where(t => t.Id == queryObj.TransactionId);
+            if(queryObj.TradeId.HasValue)
+                query = query.Where(t => t.Id == queryObj.TradeId);
 
             if(queryObj.CoinId.HasValue)
-                query = query.Where(t => t.TransactionCoinId == queryObj.CoinId);
+                query = query.Where(t => t.TradeCoinId == queryObj.CoinId);
 
-            var columnsMap = new Dictionary<string, Expression<Func<Transaction, object>>>()
+            var columnsMap = new Dictionary<string, Expression<Func<Trade, object>>>()
             {
                 ["user"] = t => t.User.Name,
                 ["coin"] = t => t.Coin.Name,
@@ -65,13 +65,13 @@ namespace TCN.Persistence
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<TransactionCoin>> GetAllCoinAsync()
+        public async Task<IEnumerable<TradeCoin>> GetAllCoinAsync()
         {
-            return await context.TransactionCoins.ToListAsync();
+            return await context.TradeCoins.ToListAsync();
         }
-        public async Task<IEnumerable<TransactionFx>> GetAllFxAsync()
+        public async Task<IEnumerable<TradeFx>> GetAllFxAsync()
         {
-            return await context.TransactionFxs.ToListAsync();
+            return await context.TradeFxs.ToListAsync();
         }
     }
 }

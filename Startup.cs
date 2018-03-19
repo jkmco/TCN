@@ -27,7 +27,7 @@ namespace TCN
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITradeRepository, TradeRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();

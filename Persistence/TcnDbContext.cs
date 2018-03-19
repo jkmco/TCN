@@ -9,9 +9,9 @@ namespace TCN.Persistence
     public class TcnDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<TransactionCoin> TransactionCoins { get; set; }
-        public DbSet<TransactionFx> TransactionFxs { get; set; }
+        public DbSet<Trade> Trades { get; set; }
+        public DbSet<TradeCoin> TradeCoins { get; set; }
+        public DbSet<TradeFx> TradeFxs { get; set; }
         public DbSet<Photo> Photos { get; set; }
         
         public TcnDbContext(DbContextOptions<TcnDbContext> options)
@@ -21,13 +21,13 @@ namespace TCN.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // shadow properties
-            modelBuilder.Entity<Transaction>().Property<bool>("IsDeleted");
-            modelBuilder.Entity<Transaction>().Property<DateTime>("DeletedAt");
-            modelBuilder.Entity<Transaction>().Property<DateTime>("CreatedAt");
-            modelBuilder.Entity<Transaction>().Property<DateTime>("LastUpdatedAt");
+            modelBuilder.Entity<Trade>().Property<bool>("IsDeleted");
+            modelBuilder.Entity<Trade>().Property<DateTime>("DeletedAt");
+            modelBuilder.Entity<Trade>().Property<DateTime>("CreatedAt");
+            modelBuilder.Entity<Trade>().Property<DateTime>("LastUpdatedAt");
 
-            modelBuilder.Entity<Transaction>()
-                .HasQueryFilter(transaction => EF.Property<bool>(transaction, "IsDeleted") == false);
+            modelBuilder.Entity<Trade>()
+                .HasQueryFilter(trade => EF.Property<bool>(trade, "IsDeleted") == false);
     
             // fluent api
             modelBuilder.Entity<User>(eu => {
@@ -35,20 +35,20 @@ namespace TCN.Persistence
                 eu.Property(u => u.Name).HasColumnType("varchar(255)").IsRequired();
             });
 
-            modelBuilder.Entity<Transaction>(et => {
-                et.ToTable("Transactions");
+            modelBuilder.Entity<Trade>(et => {
+                et.ToTable("Trades");
                 et.Property(t => t.Price).IsRequired();
                 et.Property(t => t.MinLimit).IsRequired();
                 et.Property(t => t.MaxLimit).IsRequired();
             });
 
-            modelBuilder.Entity<TransactionCoin>(ec => {
-                ec.ToTable("TransactionCoins");
+            modelBuilder.Entity<TradeCoin>(ec => {
+                ec.ToTable("TradeCoins");
                 ec.Property(c => c.Name).HasColumnType("varchar(20)").IsRequired();
             });
 
-             modelBuilder.Entity<TransactionFx>(ef => {
-                ef.ToTable("TransactionFxs");
+             modelBuilder.Entity<TradeFx>(ef => {
+                ef.ToTable("TradeFxs");
                 ef.Property(f => f.Name).HasColumnType("varchar(3)").IsRequired();
             });   
             
@@ -71,7 +71,7 @@ namespace TCN.Persistence
         
         private void OnBeforeSaving()
         {
-            foreach (var entry in ChangeTracker.Entries<Transaction>())
+            foreach (var entry in ChangeTracker.Entries<Trade>())
             {
                 var now = DateTime.UtcNow;
                 switch (entry.State)

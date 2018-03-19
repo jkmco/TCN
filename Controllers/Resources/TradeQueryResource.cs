@@ -1,10 +1,8 @@
-using TCN.Extensions;
-
-namespace TCN.Models
+namespace TCN.Controllers.Resources
 {
-    public class TransactionQuery : IQueryObject
+    public class TradeQueryResource
     {
-        public int? TransactionId { get; set; }
+        public int? TradeId { get; set; }
         public int? CoinId { get; set; }
         public int? FxId { get; set; }
         public string SortBy { get; set; }

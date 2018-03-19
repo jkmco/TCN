@@ -10,15 +10,15 @@ namespace TCN.Mapping
         {
             // Domain to API Resource
             CreateMap<User, UserResource>();
-            CreateMap<Transaction, SaveTransactionResource>();
-            CreateMap<Transaction, LoadTransactionResource>();            
-            CreateMap<TransactionCoin, KeyValuePairResource>();
-            CreateMap<TransactionFx, KeyValuePairResource>();
+            CreateMap<Trade, SaveTradeResource>();
+            CreateMap<Trade, LoadTradeResource>();            
+            CreateMap<TradeCoin, KeyValuePairResource>();
+            CreateMap<TradeFx, KeyValuePairResource>();
             CreateMap<Photo, PhotoResource>();
 
             // API Resource to Domain
-            CreateMap<TransactionQueryResource, TransactionQuery>();
-            CreateMap<SaveTransactionResource, Transaction>()
+            CreateMap<TradeQueryResource, TradeQuery>();
+            CreateMap<SaveTradeResource, Trade>()
                 .ForMember(t => t.Id, opt => opt.Ignore());
             
         }

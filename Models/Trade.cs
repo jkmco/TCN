@@ -4,22 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace TCN.Models
 {
-    public class Transaction
+    public class Trade
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int TransactionCoinId { get; set; }
-        public int TransactionFxId { get; set; }
+        public int TradeCoinId { get; set; }
+        public int TradeFxId { get; set; }
         public int Price { get; set; }
         public int MinLimit { get; set; }
         public int MaxLimit { get; set; }  
         public ICollection<Photo> Photos { get; set; }
         
         public User User { get; set; }
-        public TransactionCoin Coin { get; set; }
-        public TransactionFx Fx { get; set; }
+        public TradeCoin Coin { get; set; }
+        public TradeFx Fx { get; set; }
 
-        public Transaction()
+        public Trade()
         {
             Photos = new Collection<Photo>();
         }

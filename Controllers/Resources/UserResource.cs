@@ -5,10 +5,10 @@ namespace TCN.Controllers.Resources
 {
     public class UserResource : KeyValuePairResource
     {          
-        public ICollection<SaveTransactionResource> Transactions { get; set; }   
+        public ICollection<SaveTradeResource> Trades { get; set; }   
         public UserResource()
         {
-            Transactions = new Collection<SaveTransactionResource>();
+            Trades = new Collection<SaveTradeResource>();
         }
     }
 }

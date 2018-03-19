@@ -1,6 +1,6 @@
 namespace TCN.Controllers.Resources
 {
-    public class LoadTransactionResource
+    public class LoadTradeResource
     {
         public int Id { get; set; }
         public KeyValuePairResource User { get; set; }

@@ -7,10 +7,10 @@ namespace TCN.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }   
-        public ICollection<Transaction> Transactions { get; set; }   
+        public ICollection<Trade> Trades { get; set; }   
         public User()
         {
-            Transactions = new Collection<Transaction>();
+            Trades = new Collection<Trade>();
         }
     }
 }
