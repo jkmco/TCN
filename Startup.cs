@@ -25,6 +25,7 @@ namespace TCN
                 builder.AddUserSecrets<Startup>();
             }
 
+            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -33,7 +34,7 @@ namespace TCN
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["ConnectionStrings:Default"];
+            var connection = Configuration.GetConnectionString("Azure");
 
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
             services.AddScoped<ITradeRepository, TradeRepository>();
@@ -41,7 +42,7 @@ namespace TCN
 
             services.AddAutoMapper();
 
-            services.AddDbContext<TcnDbContext>(options => 
+            services.AddDbContext<TcnDbContext>(options =>
                 options.UseSqlServer(connection));
 
             services.AddMvc();
