@@ -9,3 +9,4 @@
 /Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.dll
 /Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.pdb
 /Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/TCN.csprojResolveAssemblyReference.cache
+/Users/jackal/Projects/TCN/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs

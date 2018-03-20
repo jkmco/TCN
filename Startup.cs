@@ -16,9 +16,16 @@ namespace TCN
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +33,8 @@ namespace TCN
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = Configuration["ConnectionStrings:Default"];
+
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
             services.AddScoped<ITradeRepository, TradeRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -33,9 +42,10 @@ namespace TCN
             services.AddAutoMapper();
 
             services.AddDbContext<TcnDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("Azure")));
+                options.UseSqlServer(connection));
 
             services.AddMvc();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,6 +56,7 @@ namespace TCN
                 options.Authority = "https://jackcakal.auth0.com/";
                 options.Audience = "https://api.jackal.com";
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
