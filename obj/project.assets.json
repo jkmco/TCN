@@ -12612,13 +12612,13 @@
       "projectName": "TCN",
       "projectPath": "/Users/jackal/Projects/TCN/TCN.csproj",
       "packagesPath": "/Users/jackal/.nuget/packages/",
-      "outputPath": "/Users/jackal/Projects/TCN/obj/",
+      "outputPath": "/Users/jackal/Projects/TCN/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/jackal/.nuget/NuGet/NuGet.Config"
+        "/Users/jackal/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -12640,30 +12640,31 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.NETCore.App": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "2.0",
+            "autoReferenced": true
+          },
           "AutoMapper": {
             "target": "Package",
-            "version": "[6.2.2, )"
+            "version": "6.2.2"
           },
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
-            "version": "[3.2.0, )"
+            "version": "3.2.0"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "[2.0.5, )"
+            "version": "2.0.5"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
-            "version": "[2.0.1, )"
+            "version": "2.0.1"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
-            "version": "[2.0.1, )"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "[2.0.0, )",
-            "autoReferenced": true
+            "version": "2.0.1"
           }
         },
         "imports": [

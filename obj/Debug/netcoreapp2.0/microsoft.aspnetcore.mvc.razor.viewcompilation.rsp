@@ -1,0 +1,12 @@
+/Users/jackal/Projects/TCN
+--output-path=obj/Debug/netcoreapp2.0/
+--application-name=TCN
+--content-root=/Users/jackal/Projects/TCN
+--file=/Users/jackal/Projects/TCN/Pages/About.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/Contact.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/Error.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/Index.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/_Layout.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/_ValidationScriptsPartial.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/_ViewImports.cshtml
+--file=/Users/jackal/Projects/TCN/Pages/_ViewStart.cshtml

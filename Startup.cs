@@ -33,7 +33,7 @@ namespace TCN
             services.AddAutoMapper();
 
             services.AddDbContext<TcnDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("Default")));
+                options.UseSqlServer(Configuration.GetConnectionString("Azure")));
 
             services.AddMvc();
             services.AddAuthentication(options =>

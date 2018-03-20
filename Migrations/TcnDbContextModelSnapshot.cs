@@ -29,16 +29,16 @@ namespace TCN.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("TransactionId");
+                    b.Property<int>("TradeId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TradeId");
 
                     b.ToTable("Photos");
                 });
 
-            modelBuilder.Entity("TCN.Models.Transaction", b =>
+            modelBuilder.Entity("TCN.Models.Trade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -57,24 +57,24 @@ namespace TCN.Migrations
 
                     b.Property<int>("Price");
 
-                    b.Property<int>("TransactionCoinId");
+                    b.Property<int>("TradeCoinId");
 
-                    b.Property<int>("TransactionFxId");
+                    b.Property<int>("TradeFxId");
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionCoinId");
+                    b.HasIndex("TradeCoinId");
 
-                    b.HasIndex("TransactionFxId");
+                    b.HasIndex("TradeFxId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Trades");
                 });
 
-            modelBuilder.Entity("TCN.Models.TransactionCoin", b =>
+            modelBuilder.Entity("TCN.Models.TradeCoin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -85,10 +85,10 @@ namespace TCN.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionCoins");
+                    b.ToTable("TradeCoins");
                 });
 
-            modelBuilder.Entity("TCN.Models.TransactionFx", b =>
+            modelBuilder.Entity("TCN.Models.TradeFx", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -99,7 +99,7 @@ namespace TCN.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionFxs");
+                    b.ToTable("TradeFxs");
                 });
 
             modelBuilder.Entity("TCN.Models.User", b =>
@@ -118,25 +118,26 @@ namespace TCN.Migrations
 
             modelBuilder.Entity("TCN.Models.Photo", b =>
                 {
-                    b.HasOne("TCN.Models.Transaction")
+                    b.HasOne("TCN.Models.Trade", "Trade")
                         .WithMany("Photos")
-                        .HasForeignKey("TransactionId");
+                        .HasForeignKey("TradeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TCN.Models.Transaction", b =>
+            modelBuilder.Entity("TCN.Models.Trade", b =>
                 {
-                    b.HasOne("TCN.Models.TransactionCoin", "Coin")
+                    b.HasOne("TCN.Models.TradeCoin", "Coin")
                         .WithMany()
-                        .HasForeignKey("TransactionCoinId")
+                        .HasForeignKey("TradeCoinId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TCN.Models.TransactionFx", "Fx")
+                    b.HasOne("TCN.Models.TradeFx", "Fx")
                         .WithMany()
-                        .HasForeignKey("TransactionFxId")
+                        .HasForeignKey("TradeFxId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TCN.Models.User", "User")
-                        .WithMany("Transactions")
+                        .WithMany("Trades")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

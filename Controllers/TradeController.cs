@@ -24,7 +24,7 @@ namespace TCN.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> CreateTrade([FromBody] SaveTradeResource tradeResource)
         {
             if (!ModelState.IsValid)
